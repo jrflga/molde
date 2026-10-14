@@ -1,6 +1,6 @@
 #!/usr/bin/env swift
 // Molde: esferográfica azul sobre papel creme. Um molde aberto com uma tela
-// saindo de dentro. A caneta é a mesma do logo do caixa-preta.
+// saindo de dentro. A caneta é a do caixa-preta, num esboço mais solto.
 // Sem dependências. Uso: xcrun swift ferramentas/gerar-logo.swift docs/logo.png
 // Sementes fixas: o resultado se repete.
 import AppKit
@@ -77,6 +77,37 @@ func desenhar(lado: Int) -> Data {
         riscos()
         ctx.restoreGState()
     }
+    // Esboço rápido: um traço firme e fino, e um segundo passe solto ao lado,
+    // que às vezes passa um pouco da ponta.
+    func esboco(_ pontos: [CGPoint], largura: CGFloat = 4.8) {
+        caneta(pontos, largura: largura, tremido: 2.6, alfa: 0.88)
+        let dx = rng.entre(-5,5), dy = rng.entre(-4,4)
+        var solto = pontos.map { p($0.x+dx+rng.entre(-2,2), $0.y+dy+rng.entre(-2,2)) }
+        let passa = rng.entre(0.0,0.06)
+        if solto.count > 1 {
+            let a = solto[0], b = solto[1]
+            solto[0] = p(a.x-(b.x-a.x)*passa, a.y-(b.y-a.y)*passa)
+        }
+        caneta(solto, largura: largura*0.4, tremido: 3.6, alfa: 0.4)
+    }
+    // Cantos arredondados, para a tela parecer tela.
+    func arredondar(_ cantos: [CGPoint], raio: CGFloat) -> [CGPoint] {
+        var saida: [CGPoint] = []
+        for i in cantos.indices {
+            let ant = cantos[(i+cantos.count-1) % cantos.count], c = cantos[i], prox = cantos[(i+1) % cantos.count]
+            func rumo(_ para: CGPoint) -> CGPoint {
+                let l = hypot(para.x-c.x, para.y-c.y); return p((para.x-c.x)/l, (para.y-c.y)/l)
+            }
+            let u = rumo(ant), v = rumo(prox)
+            let p0 = p(c.x+u.x*raio, c.y+u.y*raio), p2 = p(c.x+v.x*raio, c.y+v.y*raio)
+            for k in 0...6 {
+                let t = CGFloat(k)/6
+                saida.append(p((1-t)*(1-t)*p0.x + 2*(1-t)*t*c.x + t*t*p2.x,
+                               (1-t)*(1-t)*p0.y + 2*(1-t)*t*c.y + t*t*p2.y))
+            }
+        }
+        return saida + [saida[0]]
+    }
 
     // O molde: borda de fora (a b c d), borda de dentro (a2 b2 c2 d2) e a
     // profundidade (e f g), na perspectiva baixa do caixa-preta.
@@ -84,33 +115,30 @@ func desenhar(lado: Int) -> Data {
     let e = p(647,790), f = p(231,735), g = p(791,700)
     let a2 = p(268,600), b2 = p(381,535), c2 = p(752,567), d2 = p(642,632)
 
-    // 1. A parede de dentro, no fundo, fica na sombra: riscos curtos.
+    // 1. A parede de dentro, no fundo, fica na sombra: riscos curtos e leves.
     hachurar(dentro:[a2,b2,c2,d2]) {
         var t: CGFloat = 0
         while t < 1 {
             let x = 381 + (752-381)*t
             let topo = 535 + (567-535)*t
-            caneta([p(x+rng.entre(-3,3),topo-6),p(x-18+rng.entre(-6,6),topo+58+rng.entre(-10,10))],
-                   largura:rng.entre(1.8,2.8),tremido:1.6,alfa:0.5)
-            t += rng.entre(0.012,0.022)
+            caneta([p(x+rng.entre(-3,3),topo-6),p(x-18+rng.entre(-6,6),topo+54+rng.entre(-12,12))],
+                   largura:rng.entre(1.4,2.2),tremido:1.6,alfa:0.42)
+            t += rng.entre(0.014,0.026)
         }
     }
 
     // As bordas do fundo ficam atrás da tela.
-    caneta([a,b,c],largura:6.4)
-    caneta([a2,b2,c2],largura:3.6,tremido:2.2,alfa:0.7)
-    caneta([p(233,598),p(366,514),p(460,524)],largura:2.0,tremido:2.1,alfa:0.5)
+    esboco([a,b,c])
+    caneta([a2,b2,c2],largura:2.6,tremido:2.2,alfa:0.62)
 
-    // 2. A tela que sai do molde: por cima da parede do fundo.
-    let tl = p(446,250), tr = p(618,262), br = p(590,690), bl = p(414,680)
-    cobrir([tl,tr,br,bl])
-    caneta([p(452,252),p(612,262)],largura:6.6)
-    caneta([p(620,268),p(594,668)],largura:7.0)
-    caneta([p(440,258),p(416,660)],largura:7.2)
-    // O que a tela mostra: duas linhas de texto e um botão.
-    caneta([p(478,318),p(588,325)],largura:5.4,tremido:1.4,alfa:0.8)
-    caneta([p(476,364),p(552,368)],largura:5.0,tremido:1.2,alfa:0.72)
-    caneta([p(478,432),p(570,438)],largura:13,tremido:1.0,alfa:0.86)
+    // 2. A tela que sai do molde, de cantos redondos: por cima da parede do fundo.
+    let tela = arredondar([p(446,250),p(618,262),p(590,690),p(414,680)], raio:26)
+    cobrir(tela)
+    esboco(tela, largura:5.0)
+    // O que a tela mostra: duas linhas de texto e um botão em pílula.
+    caneta([p(480,320),p(586,327)],largura:4.2,tremido:1.4,alfa:0.78)
+    caneta([p(478,362),p(550,366)],largura:3.8,tremido:1.2,alfa:0.66)
+    esboco(arredondar([p(478,420),p(574,426),p(573,452),p(477,446)], raio:12), largura:3.4)
 
     // 3. As paredes da frente cobrem a parte da tela que ainda está dentro.
     cobrir([a,d,d2,a2])
@@ -118,25 +146,27 @@ func desenhar(lado: Int) -> Data {
     cobrir([d,c,g,e])
     cobrir([d,c,c2,d2])
 
-    // 4. A face da direita fica escura, só de riscos de tinta.
+    // 4. A face da direita fica escura em hachura cruzada.
     hachurar(dentro:[p(654,652),p(790,566),p(786,698),p(651,786)]) {
         var x: CGFloat = 625
         while x < 960 {
             caneta([p(x+rng.entre(-3,3),540+rng.entre(-20,20)),p(x-120+rng.entre(-14,14),820+rng.entre(-18,18))],
-                   largura:rng.entre(2.3,3.8),tremido:2.4,alfa:0.76)
-            x += rng.entre(5.0,8.2)
+                   largura:rng.entre(1.6,2.6),tremido:2.4,alfa:0.62)
+            x += rng.entre(7.0,11.0)
+        }
+        var y: CGFloat = 640
+        while y < 860 {
+            caneta([p(636+rng.entre(-10,10),y),p(808,y-104+rng.entre(-16,16))],
+                   largura:rng.entre(1.3,2.0),tremido:1.8,alfa:0.46)
+            y += rng.entre(11,18)
         }
     }
 
     // 5. O contorno, levantando a caneta entre as arestas.
-    caneta([c,d,a],largura:7.2)
-    caneta([c2,d2,a2],largura:4.4,tremido:2.0,alfa:0.78)
-    caneta([a,f,e],largura:7.4)
-    caneta([d,e,g,c],largura:7.4)
-    // Poucos repasses leves e incompletos.
-    caneta([p(238,740),p(420,764),p(570,780)],largura:1.9,tremido:1.8,alfa:0.45)
-    caneta([p(456,256),p(560,262)],largura:1.8,tremido:2.4,alfa:0.42)
-    caneta([p(229,630),p(231,700)],largura:1.5,tremido:2.6,alfa:0.42)
+    esboco([c,d,a], largura:5.2)
+    caneta([c2,d2,a2],largura:3.2,tremido:2.0,alfa:0.72)
+    esboco([a,f,e], largura:5.4)
+    esboco([d,e,g,c], largura:5.4)
 
     return NSBitmapImageRep(cgImage:ctx.makeImage()!).representation(using:.png,properties:[:])!
 }
