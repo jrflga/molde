@@ -1,0 +1,42 @@
+{
+  "originHash" : "1046a1f361a44f307f54bf87392f15ecc99666cb8a78c5bd183278e451e4c97a",
+  "pins" : [
+    {
+      "identity" : "a2ui-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jrflga/a2ui-swift",
+      "state" : {
+        "revision" : "6c34cd8b807337fe8fdb447fd0844a49241783bc",
+        "version" : "0.3.5-jrflga.1"
+      }
+    },
+    {
+      "identity" : "swift-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-collections.git",
+      "state" : {
+        "revision" : "35a1edcb8ebd2bfe251d587f0b69e62af28f508c",
+        "version" : "1.7.3"
+      }
+    },
+    {
+      "identity" : "swift-json-schema",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jrflga/swift-json-schema.git",
+      "state" : {
+        "revision" : "0049c14c3b26a06261d441bd566a9a12d83d72a2",
+        "version" : "0.13.2-jrflga.1"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax.git",
+      "state" : {
+        "revision" : "050f1a346fbbac0ca2cfb15a95274f7bd1cf0ccf",
+        "version" : "604.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}
