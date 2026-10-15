@@ -16,7 +16,7 @@ desenha, com componentes compilados no binário.
 - **Telas que se refazem.** Uma tela ligada só aos dados que o app publica
   pode ficar fixa e se refazer com os dados do momento, sem chamar a IA.
 
-Swift 6, iOS 17+ e macOS 14+. Desenha com o renderer SwiftUI do
+Swift 6, iOS 17+, macOS 14+ e Mac Catalyst 18+. Desenha com o renderer SwiftUI do
 [A2UI-Swift](https://github.com/BBC6BAE9/a2ui-swift), por um fork
 ([Cadeia de dependências](#cadeia-de-dependências)).
 
@@ -26,7 +26,7 @@ Swift 6, iOS 17+ e macOS 14+. Desenha com o renderer SwiftUI do
 
 ## Começar
 
-1. Adicione o pacote `https://github.com/jrflga/molde`, com `exact: "0.1.1"`.
+1. Adicione o pacote `https://github.com/jrflga/molde`, com `exact: "0.1.2"`.
    O `MoldeContrato` não tem tela; o `Molde` desenha; o `MoldeInspector` só
    existe em DEBUG.
 2. Declare o catálogo e gere o manifesto:
@@ -136,7 +136,8 @@ Modelo de nota para a revisão da Apple, em inglês:
 Nada de código vivo de outra pessoa:
 
 - [`jrflga/a2ui-swift`](https://github.com/jrflga/a2ui-swift), tag
-  `0.3.5-jrflga.2`, fork do A2UI-Swift (base `16476ba`, depois da v0.3.5);
+  `0.3.5-jrflga.3`, fork do A2UI-Swift (base `16476ba`, depois da v0.3.5;
+  declara Mac Catalyst 18);
 - [`jrflga/swift-json-schema`](https://github.com/jrflga/swift-json-schema),
   tag `0.13.2-jrflga.2`, fork que o A2UI-Swift usa;
 - `swift-collections` 1.2.1 e `swift-syntax` 604.0.0, da Apple e do

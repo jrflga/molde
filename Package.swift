@@ -7,7 +7,8 @@ import PackageDescription
 // `molde`: o disco do Mac não separa maiúscula e acharia `Sources/Molde`.
 let package = Package(
     name: "molde",
-    platforms: [.iOS(.v17), .macOS(.v14)],
+    // Mac Catalyst 18: o renderer do A2UI-Swift usa API que só existe a partir dele.
+    platforms: [.iOS(.v17), .macOS(.v14), .macCatalyst(.v18)],
     products: [
         .library(name: "MoldeContrato", targets: ["MoldeContrato"]),
         .library(name: "Molde", targets: ["Molde"]),
@@ -16,7 +17,7 @@ let package = Package(
     ],
     dependencies: [
         // Fork do jrflga, numa versão exata: sem código vivo de outra pessoa.
-        .package(url: "https://github.com/jrflga/a2ui-swift", exact: "0.3.5-jrflga.2"),
+        .package(url: "https://github.com/jrflga/a2ui-swift", exact: "0.3.5-jrflga.3"),
     ],
     targets: [
         .target(name: "MoldeContrato"),

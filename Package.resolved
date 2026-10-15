@@ -1,13 +1,13 @@
 {
-  "originHash" : "d9478c693f2bf8fc1da33d120341d5a0dc100e4c7f288bd0b6bf164c7609ceaa",
+  "originHash" : "12eaca4a5143500a931432ecd7e14b24a0085ed6d70ac2fd964acc6ea1d46b04",
   "pins" : [
     {
       "identity" : "a2ui-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jrflga/a2ui-swift",
       "state" : {
-        "revision" : "e1fb09cd93aa4689940978b4a26f95f6e5289e1c",
-        "version" : "0.3.5-jrflga.2"
+        "revision" : "0bb3024c4928b8011e973850078af1238e214f40",
+        "version" : "0.3.5-jrflga.3"
       }
     },
     {
