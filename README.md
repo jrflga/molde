@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/logo.png" width="160" alt="Logo do Molde: um molde aberto desenhado à caneta azul, com uma tela saindo de dentro"></p>
+<p align="center"><img src="docs/logo.png" width="160" alt="Logo do Molde: uma forma desenhada à caneta azul, com cavidades de cartão, ícone e botão; o botão sai da forma"></p>
 
 # Molde
 
