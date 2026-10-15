@@ -26,7 +26,7 @@ Swift 6, iOS 17+ e macOS 14+. Desenha com o renderer SwiftUI do
 
 ## Começar
 
-1. Adicione o pacote `https://github.com/jrflga/molde`, com `exact: "0.1.0"`.
+1. Adicione o pacote `https://github.com/jrflga/molde`, com `exact: "0.1.1"`.
    O `MoldeContrato` não tem tela; o `Molde` desenha; o `MoldeInspector` só
    existe em DEBUG.
 2. Declare o catálogo e gere o manifesto:
@@ -136,11 +136,12 @@ Modelo de nota para a revisão da Apple, em inglês:
 Nada de código vivo de outra pessoa:
 
 - [`jrflga/a2ui-swift`](https://github.com/jrflga/a2ui-swift), tag
-  `0.3.5-jrflga.1`, fork do A2UI-Swift (base `16476ba`, depois da v0.3.5);
+  `0.3.5-jrflga.2`, fork do A2UI-Swift (base `16476ba`, depois da v0.3.5);
 - [`jrflga/swift-json-schema`](https://github.com/jrflga/swift-json-schema),
-  tag `0.13.2-jrflga.1`, fork que o A2UI-Swift usa;
-- `swift-collections` e `swift-syntax`, da Apple e do swiftlang, em versão
-  exata.
+  tag `0.13.2-jrflga.2`, fork que o A2UI-Swift usa;
+- `swift-collections` 1.2.1 e `swift-syntax` 604.0.0, da Apple e do
+  swiftlang, em versão exata. O swift-collections fica na 1.2.1 porque as
+  seguintes exigem Swift 6.2, e o pacote compila também no Xcode 16.
 
 Toda dependência entra com `exact:`, e o `Package.resolved` vai no Git.
 Atualizar a partir do original é um passo revisado: puxar, ler o diff e marcar

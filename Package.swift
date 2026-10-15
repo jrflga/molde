@@ -16,7 +16,7 @@ let package = Package(
     ],
     dependencies: [
         // Fork do jrflga, numa versão exata: sem código vivo de outra pessoa.
-        .package(url: "https://github.com/jrflga/a2ui-swift", exact: "0.3.5-jrflga.1"),
+        .package(url: "https://github.com/jrflga/a2ui-swift", exact: "0.3.5-jrflga.2"),
     ],
     targets: [
         .target(name: "MoldeContrato"),
